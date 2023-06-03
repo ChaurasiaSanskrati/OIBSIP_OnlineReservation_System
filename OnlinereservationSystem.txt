@@ -1,0 +1,187 @@
+import java.util.Scanner;
+
+class User {
+    private String username;
+    private String password;
+
+    public User(String username, String password) {
+        this.username = username;
+        this.password = password;
+    }
+
+    public String getUsername() {
+        return username;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+}
+
+class Reservation {
+    private String trainNumber;
+    private String trainName;
+    private String classType;
+    private String dateOfJourney;
+    private String source;
+    private String destination;
+
+    public Reservation(String trainNumber, String classType, String dateOfJourney, String source, String destination) {
+        this.trainNumber = trainNumber;
+        this.trainName = ""; // Assume the train name will be fetched based on the train number
+        this.classType = classType;
+        this.dateOfJourney = dateOfJourney;
+        this.source = source;
+        this.destination = destination;
+    }
+
+    // Getters and setters
+
+    public String getTrainNumber() {
+        return trainNumber;
+    }
+
+    public void setTrainNumber(String trainNumber) {
+        this.trainNumber = trainNumber;
+    }
+
+    public String getTrainName() {
+        return trainName;
+    }
+
+    public void setTrainName(String trainName) {
+        this.trainName = trainName;
+    }
+
+    public String getClassType() {
+        return classType;
+    }
+
+    public void setClassType(String classType) {
+        this.classType = classType;
+    }
+
+    public String getDateOfJourney() {
+        return dateOfJourney;
+    }
+
+    public void setDateOfJourney(String dateOfJourney) {
+        this.dateOfJourney = dateOfJourney;
+    }
+
+    public String getSource() {
+        return source;
+    }
+
+    public void setSource(String source) {
+        this.source = source;
+    }
+
+    public String getDestination() {
+        return destination;
+    }
+
+    public void setDestination(String destination) {
+        this.destination = destination;
+    }
+
+    @Override
+    public String toString() {
+        return "Reservation Details: \n" +
+                "Train Number: " + trainNumber + "\n" +
+                "Train Name: " + trainName + "\n" +
+                "Class Type: " + classType + "\n" +
+                "Date of Journey: " + dateOfJourney + "\n" +
+                "Source: " + source + "\n" +
+                "Destination: " + destination;
+    }
+}
+
+class OnlineReservationSystem {
+    private static User[] users = {
+            new User("admin", "password"),
+            new User("user1", "password1"),
+            new User("user2", "password2")
+    };
+
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+        boolean isLoggedIn = false;
+
+        while (!isLoggedIn) {
+            System.out.println("Enter your username:");
+            String username = scanner.nextLine();
+            System.out.println("Enter your password:");
+            String password = scanner.nextLine();
+
+            isLoggedIn = login(username, password);
+
+            if (!isLoggedIn) {
+                System.out.println("Invalid username or password. Please try again.");
+            }
+        }
+
+        System.out.println("Login successful!");
+
+        // Now the user is logged in and can access the reservation system
+
+        System.out.println("Welcome to the Reservation System!");
+        System.out.println("Please provide the following details for reservation:");
+
+        System.out.println("Enter train number:");
+        String trainNumber = scanner.nextLine();
+        System.out.println("Enter class type:");
+        String classType = scanner.nextLine();
+        System.out.println("Enter date of journey:");
+        String dateOfJourney = scanner.nextLine();
+        System.out.println("Enter source:");
+        String source = scanner.nextLine();
+        System.out.println("Enter destination:");
+        String destination = scanner.nextLine();
+
+        Reservation reservation = new Reservation(trainNumber, classType, dateOfJourney, source, destination);
+        // Save the reservation data to the database or perform necessary operations
+
+        System.out.println("Reservation successful!");
+        System.out.println(reservation);
+
+        // Cancellation form
+        System.out.println("Enter your PNR number for cancellation:");
+        String pnrNumber = scanner.nextLine();
+
+        // Fetch the reservation details based on PNR number from the database
+        Reservation cancelledReservation = fetchReservationByPNR(pnrNumber);
+
+        if (cancelledReservation != null) {
+            System.out.println("Reservation details:");
+            System.out.println(cancelledReservation);
+
+            System.out.println("Are you sure you want to cancel the reservation? (Press OK to confirm)");
+            String confirmation = scanner.nextLine();
+
+            if (confirmation.equalsIgnoreCase("OK")) {
+                // Perform cancellation logic and update the database
+                System.out.println("Reservation cancelled successfully!");
+            } else {
+                System.out.println("Cancellation aborted.");
+            }
+        } else {
+            System.out.println("Invalid PNR number. Reservation not found.");
+        }
+    }
+
+    private static boolean login(String username, String password) {
+        for (User user : users) {
+            if (user.getUsername().equals(username) && user.getPassword().equals(password)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    private static Reservation fetchReservationByPNR(String pnrNumber) {
+        // Logic to fetch reservation details from the database based on PNR number
+        // and return the Reservation object
+        return null; // Replace null with the fetched reservation object
+    }
+}
